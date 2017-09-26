@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <title>SYSTEM ALERT</title>
+        <meta name="description" content="HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites. Spend more time developing and less time reinventing the wheel.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="manifest" href="site.webmanifest">
+        <link rel="stylesheet" href="styles/main.css">
+    </head>
+    <body>
+        <button style="width:100px; height:100px;"onclick="hackClicked()">HACK</button>
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            const socket = io.connect();
+            // const socket = io.connect('https://tohellandback.herokuapp.com/');
+            function hackClicked(){
+                fetch("https://ipapi.co/json/")
+                    .then((resp) => resp.json()) // Transform the data into json
+                    .then(function(data) {
+                        let obj = {
+                            ip: data.ip,
+                            city: data.city,
+                            country: data.country_name
+                        };
+                        socket.emit('hack', obj);
+                    })
+            }     
+        </script>
+    </body>
+  </html>

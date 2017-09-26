@@ -1,0 +1,221 @@
+/* ==========================================================================
+   Base styles
+   ========================================================================== */
+
+   html {
+    color: #fff;
+    font: 17px/1.4 'Open Sans', sans-serif;
+    text-align: center;
+}
+
+body {
+    background-color:black;
+}
+
+a {
+    color: #069;
+    text-decoration: none;
+}
+
+a:hover,
+a:focus,
+a:active {
+    text-decoration: underline;
+}
+
+/*
+ * Remove text-shadow in selection highlight.
+ * These selection declarations have to be separate.
+ */
+
+::-moz-selection {
+    background-color: #b3d4fc;
+    text-shadow: none;
+}
+
+::selection {
+    background-color: #b3d4fc;
+    text-shadow: none;
+}
+
+/*
+ * Remove the gap between images and the bottom of their containers:
+ * h5bp.com/i/440
+ */
+
+img {
+    vertical-align: middle;
+}
+
+table {
+    border-collapse: collapse;
+    width:100%;
+    height: 100%;
+}
+
+table, th, td {
+    border-left: 1px solid green;
+   
+}
+th, td {
+    width: 33%;;
+}
+/* Typography
+   ========================================================================== */
+
+h1 {
+    font-size: 3em;
+    line-height: 1.2em;
+    margin: 0 0.5em 0.75em;
+}
+
+h2 {
+    font-size: 2em;
+    margin: 1.5em 0;
+}
+
+h3 {
+    color: #555;
+    font-size: 1.25em;
+    margin: 0 0 0.5em;
+}
+
+p {
+    margin: 0 0 2em;
+}
+
+/* Additonal Styles
+   ========================================================================== */
+
+.main {
+    background-size: cover; 
+    background: url('../img/computer.jpg') no-repeat center center;
+    height: 1024px;
+    width: 100%;
+}
+.laptopScreen {
+    margin-left: -367px;
+    background-color: black;
+    width: 790px;
+    height: 496px;
+    display: flex;
+    position: absolute;
+    top: 119px;
+    left: 50%;
+    font-family: 'Ubuntu Mono', monospace;
+    font-weight: 700;
+    color:green;
+}
+
+.left {
+    width:50%;
+    height: 100%;
+    background: url('../img/doorwayD.gif') no-repeat;
+}
+
+.right {
+    width:50%;
+    height: 496px;
+}
+
+.rightTop {
+    height: 50%;
+    width:100%;
+    background-color: black;
+}
+
+.rightBottom {
+    height: 50%;
+    width: 100%;
+    background-color: black;
+    border-left:1px solid green;
+    border-top:1px solid green;
+}
+
+@-webkit-keyframes blinker {
+    from {opacity: 1.0;}
+    to {opacity: 0.0;}
+}
+.blink{
+	text-decoration: blink;
+	-webkit-animation-name: blinker;
+	-webkit-animation-duration: 2.0s;
+	-webkit-animation-iteration-count:infinite;
+	-webkit-animation-timing-function:ease-in-out;
+	-webkit-animation-direction: alternate;
+}
+
+/* Breakpoints
+   ========================================================================== */
+
+@media (max-width: 800px) {
+    .main {
+        background-color: black;
+        background-size: cover; 
+        background: none;
+        height: 600px;
+        width: 100%;
+        display: flex;
+    }
+
+    .laptopScreen {
+        margin-left: 0px;
+        background-color: black;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        position: relative;
+        font-family: 'Ubuntu Mono', monospace;
+        font-weight: 700;
+        color:green;
+        background-color: black;
+        display:inline-grid;
+    }
+
+    .left {
+        width: 100%;
+        height: 260px;
+        background-size: cover; 
+        background: url('../img/doorway.gif') no-repeat center center;
+        border: 1px solid green;        
+    }
+
+    .right {
+        width: 100%;
+        height: 50%;
+        border: 1px solid green;
+
+    }    
+    .rightTop {
+        width: 100%;
+        height: 150px;
+        background-color: black;
+
+    }
+    
+    .rightBottom {
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        border-left: none;
+        border-top: none;   
+        margin-top: 10px;
+        border:1px solid green;
+    }
+    
+    table {
+        border-collapse: collapse;
+        width:100%;
+        height: 33%;
+    }
+    th, td {
+        width: 33%;
+        height: 50px;
+    }
+    table, th, td {
+        border-left: 1px solid green;
+        border-right: none;
+
+
+}  

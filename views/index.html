@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <title>SYSTEM MONITOR</title>
+        <meta name="description" content="MONITOR">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="manifest" href="site.webmanifest">
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700" rel="stylesheet">
+        <link rel="stylesheet" href="styles/main.css">
+        <!-- Global Site Tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-106910556-1"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments)};
+        gtag('js', new Date());
+
+        gtag('config', 'UA-106910556-1');
+</script>
+
+    </head>
+    <body>
+        <div class="main">
+            <div class="laptopScreen">
+                <div class="left">
+                </div>
+                <div class="right">
+                    <div class="rightTop">
+                        <table>
+                            <tr>
+                                <th>**SYSTEM1**</th>
+                                <th>**SYSTEM2**</th>
+                                <th>**SYSTEM3**</th>
+                            </tr>
+                            <tr>
+                                <td>ALARMS</td>
+                                <td>LOCKS</td>
+                                <td>DOORS</td>
+                            </tr>
+                            <tr>
+                                <td><span class="blink">&block; ONLINE</span></td>
+                                <td><span class="blink">&block; ONLINE</span></td>
+                                <td><span class="blink">&block; ONLINE</span></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="rightBottom">
+                        <p>**SYSTEM SECURITY NODES**</p>
+                        <p id='system1nodes'></p>
+                        <p id='system2nodes'></p>
+                        <p id='system3nodes'></p>
+                    </div>
+                </div>            
+            </div>
+        </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io.connect();
+        let system1 = document.getElementById('system1nodes');
+        let system2 = document.getElementById('system2nodes');
+        let system3 = document.getElementById('system3nodes');
+        socket.on('system1health', function(nodehealth) {
+            system1.innerHTML = 'SYSTEM1: ' + nodehealth;
+        });
+        socket.on('system2health', function(nodehealth) {
+            system2.innerHTML = 'SYSTEM2: ' + nodehealth;
+        });
+        socket.on('system3health', function(nodehealth) {
+            system3.innerHTML = 'SYSTEM2: ' + nodehealth;
+        });     
+    </script>
+    </body>
+</html>
+
+<!-- ** NOTE: Richard the nodes are at full.. I will watch everything from Norway House until you return. God Speed and Neon Prayers. ps sawffygaahiilabr -L.S -->
