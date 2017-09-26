@@ -18,8 +18,8 @@ const server = express();
 server.get('/', (req, res) =>
     res.render('index.html'));
 
-// server.get('/hack', (req, res) =>
-//     res.render('hacker.html'));
+server.get('/hack', (req, res) =>
+    res.render('hacker.html'));
 
 //GAME START VARIABLES
 let system = {
@@ -35,14 +35,16 @@ const io = socketIO(listenPort);
 io.on('connection', (socket) => { 
     console.log('Client connected');
     setTimeout(() => {socket.emit('health', system.health)}, 0);
+    console.log(system.health)
     socket.on('disconnect', () => console.log('Client disconnected'));
-    socket.emit('system1health', '1000/1000')
-    socket.emit('system2health', '1000/1000');
-    socket.emit('system3health','1000/1000');
+    socket.emit('system1health', system.health+`/1000rc`)
+    socket.emit('system2health', '1000/1000rc');
+    socket.emit('system3health','1000/1000rc');
     socket.on('hack', (data) => writeToMongoDB(data)
         .then((success) => { 
             updateSystemHealth().then(res => {
                 io.sockets.emit('system1health', system.health)
+                console.log(system.health);
             });
          })
     )
@@ -55,6 +57,7 @@ mongoose.connect(uristring, function (err, res) {
   console.log ('ERROR connecting to: ' + uristring + '. ' + err);
   } else {
   console.log ('Succeeded connected to: ' + uristring);
+  updateSystemHealth()
   }
 });
 
@@ -80,5 +83,4 @@ function updateSystemHealth(){
         system.health = system.startHealth - hacks;
      });
 };
-
 // setInterval(() => io.emit('time',decrease(health).toString()+"/500"), 2000)
