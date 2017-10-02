@@ -23,7 +23,7 @@
                 <!-- <div class="ledright">Right</div> -->
             </div>
             <div class="button-area"> 
-                <button class="push--skeuo" ontouchstart="" id='hackbutton' onclick="move()"></button>
+                <button class="push--skeuo" ontouchstart="" id='hackbutton' onclick="hackClicked()"></button>
             </div>
 
             
@@ -68,18 +68,9 @@
             const socket = io.connect();
             // const socket = io.connect('https://tohellandback.herokuapp.com/');
             function hackClicked(){
-                fetch("https://ipapi.co/json/")
-                    .then((resp) => resp.json()) // Transform the data into json
-                    .then(function(data) {
-                        let obj = {
-                            ip: data.ip,
-                            city: data.city,
-                            country: data.country_name
-                        };
-                        socket.emit('hack', obj);
-                        saveToLocalStorage();
-                    })
-            }            
+                saveToLocalStorage();
+                move();
+            };        
             function saveToLocalStorage(){
                 let currentTime = new Date().getTime();
                 localStorage.setItem('lastHackTime', currentTime);
@@ -93,7 +84,7 @@
                 let math = (currentTime - retrievedObject)*.001;
                 let finished = Math.round(math);
                 console.log(finished);   
-                if (finished > 20 ) {
+                if (finished > 21 ) {
                     button.removeAttribute('disabled');
                     console.log('hit');
                 }
@@ -115,7 +106,16 @@
                     localStorage.setItem('progress', 0);
                     localStorage.setItem('nodesDestroyed', ++destroyed);
                     node.innerHTML = localStorage.getItem('nodesDestroyed');
-                    hackClicked();
+                    fetch("https://ipapi.co/json/")
+                    .then((resp) => resp.json()) // Transform the data into json
+                    .then(function(data) {
+                        let obj = {
+                            ip: data.ip,
+                            city: data.city,
+                            country: data.country_name
+                        };
+                        socket.emit('hack', obj);
+                    })
                     } else {
                     width++; 
                     elem.style.width = width + '%';
