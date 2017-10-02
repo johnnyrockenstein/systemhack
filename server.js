@@ -37,13 +37,13 @@ io.on('connection', (socket) => {
     setTimeout(() => {socket.emit('health', system.health)}, 0);
     console.log(system.health)
     socket.on('disconnect', () => console.log('Client disconnected'));
-    socket.emit('system1health', system.health+`/1000rc`)
-    socket.emit('system2health', '1000/1000rc');
-    socket.emit('system3health','1000/1000rc');
+    socket.emit('system1health', system.health+`/1000`)
+    socket.emit('system2health', '1000/1000');
+    socket.emit('system3health','1000/1000');
     socket.on('hack', (data) => writeToMongoDB(data)
         .then((success) => { 
             updateSystemHealth().then(res => {
-                io.sockets.emit('system1health', system.health)
+                io.sockets.emit('system1health', system.health+`/1000`)
                 console.log(system.health);
             });
          })

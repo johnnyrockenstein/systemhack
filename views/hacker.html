@@ -6,12 +6,56 @@
         <meta name="description" content="HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites. Spend more time developing and less time reinventing the wheel.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="manifest" href="site.webmanifest">
-        <link rel="stylesheet" href="styles/main.css">
+        <link rel="stylesheet" href="styles/mobile.css">
     </head>
     <body>
-        <button style="width:100px; height:100px;"onclick="hackClicked()">HACK</button>
+        <div class="container">
+            <div class="background">
+                <div class="ledscreen">
+                    <span>Target set: Alarm System</span>
+                    <span>Nodes Destroyed: 1</span>
+                    <span class="underline">v1.666 </span>
+                    <div id="myBar"></div>
+            </div>
+            <div class="ledstatus">
+
+                <!-- <div class="ledleft">Left</div> -->
+                <!-- <div class="ledright">Right</div> -->
+            </div>
+            <div class="button-area"> 
+                <button class="push--skeuo"id='hackbutton' onclick="hackClicked()"></button>
+            </div>
+
+            
+
+
+
+        </div>
+
         <script src="/socket.io/socket.io.js"></script>
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         <script>
+            const button = document.getElementById('hackbutton');
+            checkTimeOK()
             const socket = io.connect();
             // const socket = io.connect('https://tohellandback.herokuapp.com/');
             function hackClicked(){
@@ -24,8 +68,45 @@
                             country: data.country_name
                         };
                         socket.emit('hack', obj);
+                        saveToLocalStorage();
+                        move();
                     })
-            }     
+            }            
+            function saveToLocalStorage(){
+                let currentTime = new Date().getTime();
+                localStorage.setItem('lastHackTime', currentTime);
+                button.disabled = 'true';
+                console.log('added');
+            }
+
+            function checkTimeOK(){
+                let currentTime = new Date().getTime();
+                let retrievedObject = localStorage.getItem('lastHackTime');
+                let math = (currentTime - retrievedObject)*.001;
+                let finished = Math.round(math);
+                console.log(finished);   
+                if (finished > 10 ) {
+                    button.removeAttribute('disabled');
+                    console.log('hit');
+                }
+                else {
+                    button.disabled = 'true';
+                };              
+            }
+            setInterval(function(){ checkTimeOK() }, 1000);  
+            function move() {
+            var elem = document.getElementById("myBar");   
+            var width = 1;
+            var id = setInterval(frame, 300);
+            function frame() {
+                if (width >= 100) {
+                clearInterval(id);
+                } else {
+                width++; 
+                elem.style.width = width + '%'; 
+                }
+            }
+            }          
         </script>
     </body>
   </html>
