@@ -55,7 +55,9 @@
         
         <script>
             //Write function to finsh progres if started
-            
+            if (localStorage.getItem('progress') > 0){
+                move();
+            }
             var elem = document.getElementById("myBar");
             elem.style.width = (localStorage.getItem('progress') || "1") + "%";
             let destroyed = parseInt((localStorage.getItem('nodesDestroyed') || 0));
@@ -92,7 +94,7 @@
                 let math = (currentTime - retrievedObject)*.001;
                 let finished = Math.round(math);
                 console.log(finished);   
-                if (finished > 10 ) {
+                if (finished > 20 ) {
                     button.removeAttribute('disabled');
                     console.log('hit');
                 }
@@ -106,7 +108,7 @@
             function move() {
                 var elem = document.getElementById("myBar");   
                 var width = localStorage.getItem('progress');
-                var id = setInterval(frame, 50);
+                var id = setInterval(frame, 200);
                 function frame() {
                     if (width >= 100) {
                     clearInterval(id);
