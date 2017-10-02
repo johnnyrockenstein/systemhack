@@ -13,7 +13,7 @@
             <div class="background">
                 <div class="ledscreen">
                     <span>Target set: Alarm System</span>
-                    <span>Nodes Destroyed: 1</span>
+                    <span>Nodes Destroyed: <span id="nodes">1</span></span>
                     <span class="underline">v1.666 </span>
                     <div id="myBar"></div>
             </div>
@@ -23,7 +23,7 @@
                 <!-- <div class="ledright">Right</div> -->
             </div>
             <div class="button-area"> 
-                <button class="push--skeuo"id='hackbutton' onclick="hackClicked()"></button>
+                <button class="push--skeuo"id='hackbutton' onmousedown="hackClicked()"></button>
             </div>
 
             
@@ -54,7 +54,14 @@
         
         
         <script>
+            //Write function to finsh progres if started
+            
+            var elem = document.getElementById("myBar");
+            elem.style.width = (localStorage.getItem('progress') || "1") + "%";
+            let destroyed = parseInt((localStorage.getItem('nodesDestroyed') || 0));
             const button = document.getElementById('hackbutton');
+            const node = document.getElementById('nodes');
+            node.innerHTML = destroyed;
             checkTimeOK()
             const socket = io.connect();
             // const socket = io.connect('https://tohellandback.herokuapp.com/');
@@ -93,21 +100,27 @@
                     button.disabled = 'true';
                 };              
             }
-            setInterval(function(){ checkTimeOK() }, 1000);  
+            setInterval(function(){ checkTimeOK() }, 1000);
+            
+            
             function move() {
-            var elem = document.getElementById("myBar");   
-            var width = 1;
-            var id = setInterval(frame, 300);
-            function frame() {
-                if (width >= 100) {
-                clearInterval(id);
-                elem.style.width = 0 + '%'
-                } else {
-                width++; 
-                elem.style.width = width + '%'; 
+                var elem = document.getElementById("myBar");   
+                var width = localStorage.getItem('progress');
+                var id = setInterval(frame, 50);
+                function frame() {
+                    if (width >= 100) {
+                    clearInterval(id);
+                    elem.style.width = 0 + '%'
+                    localStorage.setItem('progress', 0);
+                    localStorage.setItem('nodesDestroyed', ++destroyed);
+                    node.innerHTML = localStorage.getItem('nodesDestroyed');
+                    } else {
+                    width++; 
+                    elem.style.width = width + '%';
+                    localStorage.setItem('progress', width);
+                    }
                 }
-            }
-            }          
+                }          
         </script>
     </body>
   </html>
