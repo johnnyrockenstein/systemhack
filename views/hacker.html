@@ -23,7 +23,9 @@
                 <!-- <div class="ledright">Right</div> -->
             </div>
             <div class="button-area"> 
-                <button class="push--skeuo" ontouchstart="" id='hackbutton' onclick="hackClicked()"></button>
+                <!-- <button class="push--skeuo" ontouchstart="" id='hackbutton' onclick="hackClicked()"></button> -->
+                <button ontouchstart="" id='hackbutton' onclick="hackClicked()"></button>
+                <!-- <img id="hackbutton" src="/img/button.png" class="button" ontouchstart="" onclick="hackClicked()"> -->
             </div>
 
             
@@ -70,6 +72,7 @@
             function hackClicked(){
                 saveToLocalStorage();
                 move();
+                console.log("Clicked mofo")
             };        
             function saveToLocalStorage(){
                 let currentTime = new Date().getTime();

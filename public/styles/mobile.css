@@ -27,7 +27,7 @@ body {
     background: url('../img/hackbg.png'); 
     background-size: cover; 
     background-repeat: no-repeat;
-    background-color: blue;
+    /* background-color: blue; */
     width:100%;
     min-height: 100%;
 }
@@ -83,14 +83,16 @@ body {
     justify-content: center;
 }
 
-/* button{
-    background-color:red;
+button{
+    background: url('../img/button.png')no-repeat center center;
+    background-size: 100% 100%;
     border-radius: 100px;
     width: 160px;
     height: 160px;
-    box-shadow:none;
-    border: 0;
-} */[class*="push"] {
+    border:0;
+
+}
+[class*="push"] {
   position: relative;
   display: inline-block;
   width: 150px;
