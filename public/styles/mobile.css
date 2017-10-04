@@ -86,6 +86,7 @@ body {
     height: 10px;
     width: 10px;
     box-shadow: 0 0 22px #e59191, #e59191 0 0 5px inset;
+    margin: 1px;
 }
 
 .button-area{
