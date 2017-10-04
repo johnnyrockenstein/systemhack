@@ -91,7 +91,7 @@ button{
     border-radius: 100px;
     width: 100px;
     height: 100px;
-    border:0;
+    /* border:0; */
     box-shadow: black 10px 20px 22px;
 
 }
