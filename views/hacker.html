@@ -7,13 +7,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="manifest" href="site.webmanifest">
         <link rel="stylesheet" href="styles/mobile.css">
+        <link rel="stylesheet" href="styles/animate.css">
     </head>
     <body>
         <div class="container">
             <div class="background">
                 <div class="ledscreen">
-                    <span>Target set: Alarm System</span>
-                    <span>Nodes Destroyed: <span id="nodes">1</span></span>
+                    <span>Target: <span id="target"></span></span>
+                    <span id="nodeLine">Nodes Destroyed: <span id="nodes">1</span></span>
                     <span class="underline">v1.666 </span>
                     <div id="myBar"></div>
             </div>
@@ -24,7 +25,7 @@
             </div>
             <div class="button-area"> 
                 <!-- <button class="push--skeuo" ontouchstart="" id='hackbutton' onclick="hackClicked()"></button> -->
-                <button ontouchstart="" id='hackbutton' onclick="hackClicked()" type="submit"></button>></button>
+                <button ontouchstart="" id='hackbutton' onclick="hackClicked()"></button>>
                 <!-- <img id="hackbutton" src="/img/button.png" class="button" ontouchstart="" onclick="hackClicked()"> -->
             </div>
 
@@ -60,16 +61,26 @@
             if (localStorage.getItem('progress') > 0){
                 move();
             }
+           
             var elem = document.getElementById("myBar");
             elem.style.width = (localStorage.getItem('progress') || "1") + "%";
             let destroyed = parseInt((localStorage.getItem('nodesDestroyed') || 0));
             const button = document.getElementById('hackbutton');
+            const targetE = document.getElementById('target');
             const node = document.getElementById('nodes');
+            const nodeLine = document.getElementById('nodeLine');
             node.innerHTML = destroyed;
             checkTimeOK()
+
             const socket = io.connect();
             // const socket = io.connect('https://tohellandback.herokuapp.com/');
+            socket.on('target', function(target) {
+                targetE.innerHTML = target;
+            });
+
             function hackClicked(){
+                addEffect(button, "animated pulse");
+                removeEffect(nodeLine);
                 saveToLocalStorage();
                 move();
                 console.log("Clicked mofo")
@@ -81,13 +92,21 @@
                 console.log('added');
             }
 
+            function addEffect(e,effect){
+                e.className += effect;
+            }
+
+            function removeEffect(e){
+                e.removeAttribute('class');
+            }
+
             function checkTimeOK(){
                 let currentTime = new Date().getTime();
                 let retrievedObject = localStorage.getItem('lastHackTime');
                 let math = (currentTime - retrievedObject)*.001;
                 let finished = Math.round(math);
                 console.log(finished);   
-                if (finished > 21 ) {
+                if (finished > 20 ) {
                     button.removeAttribute('disabled');
                     console.log('hit');
                 }
@@ -109,6 +128,8 @@
                     localStorage.setItem('progress', 0);
                     localStorage.setItem('nodesDestroyed', ++destroyed);
                     node.innerHTML = localStorage.getItem('nodesDestroyed');
+                    removeEffect(button);
+                    addEffect(nodeLine, "animated tada");
                     fetch("https://ipapi.co/json/")
                     .then((resp) => resp.json()) // Transform the data into json
                     .then(function(data) {
