@@ -75,7 +75,7 @@
     transform: scale3d(1, 1, 1);
   }
 
-  50% {
+  25% {
     transform: scale3d(0.9, 0.9, 0.9);
   }
 
