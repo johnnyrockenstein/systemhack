@@ -87,6 +87,10 @@ p {
 /* Additonal Styles
    ========================================================================== */
 
+.failure {
+    color:red;
+}
+
 .main {
     background-size: cover; 
     background: url('../img/computer.jpg') no-repeat center center;

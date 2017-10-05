@@ -3,9 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>SYSTEM ALERT</title>
-        <meta name="description" content="HTML5 Boilerplate is a professional front-end template for building fast, robust, and adaptable web apps or sites. Spend more time developing and less time reinventing the wheel.">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="manifest" href="site.webmanifest">
         <link rel="stylesheet" href="styles/mobile.css">
         <link rel="stylesheet" href="styles/animate.css">
     </head>
@@ -17,129 +15,116 @@
                     <span id="nodeLine">Nodes Destroyed: <span id="nodes">1</span></span>
                     <span class="underline">v1.666 </span>
                     <div id="myBar"></div>
-            </div>
-            <div class="ledstatus">
-                <div class="ledleft">
-                    <div class="flashy animated pulse infinite"></div>
-                    <div class="flashy"></div>
-                    <div class="flashy animated pulse infinite"></div>
-                    <div class="flashy"></div>
-                    <div class="flashy"></div>
                 </div>
-                <div class="ledright">
-                        <div class="flashy animated flash infinite"></div>
+                <div class="ledstatus">
+                    <div class="ledleft">
+                        <div class="flashy animated pulse infinite"></div>
                         <div class="flashy"></div>
-                         <div class="flashy animated pulse infinite"></div>
+                        <div class="flashy animated pulse infinite"></div>
+                        <div class="flashy"></div>
+                        <div class="flashy"></div>
+                    </div>
+                    <div class="ledright">
+                            <div class="flashy animated flash infinite"></div>
+                            <div class="flashy"></div>
+                            <div class="flashy animated pulse infinite"></div>
+                    </div>
                 </div>
-            </div>
             <div class="button-area"> 
-                <!-- <button class="push--skeuo" ontouchstart="" id='hackbutton' onclick="hackClicked()"></button> -->
-                <button ontouchstart="" id='hackbutton' onclick="hackClicked()"></button>>
-                <!-- <img id="hackbutton" src="/img/button.png" class="button" ontouchstart="" onclick="hackClicked()"> -->
+                <button ontouchstart="" id='hackbutton' onclick="hackClicked()"></button>
             </div>
-
-            
-
-
-
         </div>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    //Check to see if a hack was aborted mid-progress and resumes it
+    if (localStorage.getItem('progress') > 0){
+        move();
+    }
+    //Declaring Elements for later reference
+    var elem = document.getElementById("myBar");
+    let destroyed = parseInt((localStorage.getItem('nodesDestroyed') || 0));
+    const button = document.getElementById('hackbutton');
+    const targetE = document.getElementById('target');
+    const node = document.getElementById('nodes');
+    const nodeLine = document.getElementById('nodeLine');
+   
+    //Initializing the status bar
+    elem.style.width = (localStorage.getItem('progress') || "1") + "%";
 
-        <script src="/socket.io/socket.io.js"></script>
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        <script>
-            //Write function to finsh progres if started
-            if (localStorage.getItem('progress') > 0){
-                move();
-            }
-           
-            var elem = document.getElementById("myBar");
-            elem.style.width = (localStorage.getItem('progress') || "1") + "%";
-            let destroyed = parseInt((localStorage.getItem('nodesDestroyed') || 0));
-            const button = document.getElementById('hackbutton');
-            const targetE = document.getElementById('target');
-            const node = document.getElementById('nodes');
-            const nodeLine = document.getElementById('nodeLine');
-            node.innerHTML = destroyed;
-            checkTimeOK()
+    //Displaying the node count from local storage
+    node.innerHTML = destroyed;
 
-            const socket = io.connect();
-            // const socket = io.connect('https://tohellandback.herokuapp.com/');
-            socket.on('target', function(target) {
-                targetE.innerHTML = target;
-            });
+    //Function disables the button to prevent spamming       
+    const checkTimeOK = () => {
+        let currentTime = new Date().getTime();
+        let retrievedTimeObject = localStorage.getItem('lastHackTime');
+        let resultTime = (currentTime - retrievedTimeObject)*.001;
+        let time = Math.round(resultTime);
+        // console.log(time);   
+        if (time > 20 ) {
+            button.removeAttribute('disabled');
+            // console.log('hit');
+        } else {
+            button.disabled = 'true';
+        };
+    };
+    //Check to see if the button can be pressed on load        
+    checkTimeOK()
 
-            function hackClicked(){
-                addEffect(button, "animated pulse");
-                removeEffect(nodeLine);
-                saveToLocalStorage();
-                move();
-                console.log("Clicked mofo")
-            };        
-            function saveToLocalStorage(){
-                let currentTime = new Date().getTime();
-                localStorage.setItem('lastHackTime', currentTime);
-                button.disabled = 'true';
-                console.log('added');
-            }
+    //Loads Socket Connection
+    const socket = io.connect();// Local
+    // const socket = io.connect('https://tohellandback.herokuapp.com/');
+    
+    //Gets target from server and puts into client
+    socket.on('target', function(target){
+        targetE.innerHTML = target;
+    });
+    
+    //Function that runs when the button is clicked
+    function hackClicked(){
+        addEffect(button, "animated pulse");
+        removeEffect(nodeLine);
+        saveToLocalStorage();
+        move();
+        // console.log("Clicked mofo")
+    };        
+    
+    //Saves time since press to local storage
+    const saveToLocalStorage = () => {
+        let currentTime = new Date().getTime();
+        localStorage.setItem('lastHackTime', currentTime);
+        button.disabled = 'true';
+        // console.log('added');
+    };
+    //Function that adds an animate.css class to and element 
+    const addEffect = (e, effect) => {
+        e.className += effect;
+    };
 
-            function addEffect(e,effect){
-                e.className += effect;
-            }
+    //Function that removes all classes from an element
+    const removeEffect = (e) => {
+        e.removeAttribute('class')
+    };
 
-            function removeEffect(e){
-                e.removeAttribute('class');
-            }
-
-            function checkTimeOK(){
-                let currentTime = new Date().getTime();
-                let retrievedObject = localStorage.getItem('lastHackTime');
-                let math = (currentTime - retrievedObject)*.001;
-                let finished = Math.round(math);
-                console.log(finished);   
-                if (finished > 20 ) {
-                    button.removeAttribute('disabled');
-                    console.log('hit');
-                }
-                else {
-                    button.disabled = 'true';
-                };              
-            }
-            setInterval(function(){ checkTimeOK() }, 1000);
-            
-            
-            function move() {
-                var elem = document.getElementById("myBar");   
-                var width = localStorage.getItem('progress');
-                var id = setInterval(frame, 200);
-                function frame() {
-                    if (width >= 100) {
-                    clearInterval(id);
-                    elem.style.width = 0 + '%'
-                    localStorage.setItem('progress', 0);
-                    localStorage.setItem('nodesDestroyed', ++destroyed);
-                    node.innerHTML = localStorage.getItem('nodesDestroyed');
-                    removeEffect(button);
-                    addEffect(nodeLine, "animated tada");
-                    fetch("https://ipapi.co/json/")
+     
+    //Function that moves the progress bar and runs additional functions when it reaches 100%
+    const move = () => {
+        var elem = document.getElementById("myBar");   
+        var width = localStorage.getItem('progress');
+        var id = setInterval(() => {
+            if (width >= 100) {
+                clearInterval(id);
+                elem.style.width = 0 + '%'
+                //Sets progrss to 0
+                localStorage.setItem('progress', 0);
+                //Increments Nodes destoryed in local storage
+                localStorage.setItem('nodesDestroyed', ++destroyed);
+                //Diplay nodes destoryed count in client
+                node.innerHTML = localStorage.getItem('nodesDestroyed');
+                removeEffect(button);
+                addEffect(nodeLine, "animated tada");
+                //Gets ip and location data
+                fetch("https://ipapi.co/json/")
                     .then((resp) => resp.json()) // Transform the data into json
                     .then(function(data) {
                         let obj = {
@@ -147,15 +132,18 @@
                             city: data.city,
                             country: data.country_name
                         };
+                        //Send ip and location data to server
                         socket.emit('hack', obj);
                     })
-                    } else {
-                    width++; 
-                    elem.style.width = width + '%';
-                    localStorage.setItem('progress', width);
-                    }
-                }
-                }          
-        </script>
-    </body>
-  </html>
+            } else {
+                width++; 
+                elem.style.width = width + '%';
+                localStorage.setItem('progress', width);
+            }
+        }, 200);
+    };
+    //Engine the runs the bitch
+    setInterval(function(){ checkTimeOK() }, 1000);
+</script>
+</body>
+</html>
