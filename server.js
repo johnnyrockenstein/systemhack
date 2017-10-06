@@ -40,7 +40,7 @@ io.on('connection', (socket) => {
     socket.emit('system1health', system.health+`/1000`)
     socket.emit('system2health', '1000/1000');
     socket.emit('system3health','1000/1000');
-    socket.emit('target', 'SYSTEM1');
+    socket.emit('target', 'Yaphet Deek');
     socket.on('hack', (data) => writeToMongoDB(data)
         .then((success) => { 
             updateSystemHealth().then(res => {
