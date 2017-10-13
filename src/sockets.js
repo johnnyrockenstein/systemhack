@@ -1,5 +1,5 @@
 import system from './services/system';
-import { creatHack, updateSystemHealth } from './services/hack';
+import { createHack, updateSystemHealth } from './services/hack';
 
 const initializeSockets = (io) => {
     io.on('connection', (socket) => { 
