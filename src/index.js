@@ -15,9 +15,9 @@ const server = express();
 server.use(express.static('../public'));
 server.set('views', '../views');
 server.engine('html', require('ejs').renderFile);
-// .use((req, res) => res.sendFile(INDEX) )
-let listenPort = server.listen(PORT, () => console.log(`Listening on ${PORT}`));
+const listenPort = server.listen(PORT, () => console.log(`Listening on ${PORT}`));
 
+// Set up REST endpoints
 server.use('', routes);
 
 //Setting up Socket Connection

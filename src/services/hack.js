@@ -1,7 +1,7 @@
 import HackModel from '../models/hack';
 import system, { setSystemHealth } from '../services/system';
 
-export function saveHack(item) {
+export function createHack(item) {
     let hackAttempt = new HackModel(item);
     return hackAttempt.save((err, hack) => {
         if(err)
@@ -15,7 +15,7 @@ export function updateSystemHealth() {
     let searchResults = HackModel.find();
     return searchResults.exec(function (err, entry) {
         if (err) return handleError(err);
-        
+
         let hacks = parseInt(entry.length);
         setSystemHealth(system.startHealth - hacks);
      });
