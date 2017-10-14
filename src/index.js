@@ -12,8 +12,8 @@ const PORT = process.env.PORT || 3000;
 const INDEX = path.join(__dirname, 'index.html');
 
 const server = express();
-server.use(express.static('../public'));
-server.set('views', '../views');
+server.use(express.static('./public'));
+server.set('views', './views');
 server.engine('html', require('ejs').renderFile);
 const listenPort = server.listen(PORT, () => console.log(`Listening on ${PORT}`));
 

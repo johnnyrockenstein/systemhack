@@ -1,3 +1,6 @@
+# https://github.com/github/gitignore/blob/master/Node.gitignore #
+##################################################################
+
 # Logs
 logs
 *.log
@@ -57,5 +60,6 @@ typings/
 # dotenv environment variables file
 .env
 
-#Webstorm
-.idea/
+# Custom
+.idea
+dist
